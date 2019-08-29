@@ -1,0 +1,8 @@
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.csprojAssemblyReference.cache
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.csproj.CoreCompileInputs.cache
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\bin\Debug\Console_BookExamples.exe
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\bin\Debug\Console_BookExamples.pdb
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.exe
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.pdb
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\bin\Debug\System.ValueTuple.dll
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.csproj.CopyComplete
