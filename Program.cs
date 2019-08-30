@@ -1,59 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 
 namespace Console_BookExamples
 {
-    //************* Single responsibility principle *************//
-    // A typical class is responsible for only one specific operation 
-    internal class Journal
+    //************* Liskov principle *************//
+    
+    internal class Rectangle
     {
-        private readonly List<string> entries = new List<string>();
-        private static int count = 0;
+        public virtual int Width { get; set; }
+        public virtual int Height { get; set; }
 
-        public int AddEntry(string text)
+        public Rectangle()
         {
-            entries.Add($"{++count}: {text}");
-            return count;
+            
         }
 
-        public void RemoveEntry(int index)
+        public Rectangle(int width, int height)
         {
-            entries.RemoveAt(index);
+            Width = width;
+            Height = height;
         }
 
         public override string ToString()
         {
-            return string.Join(Environment.NewLine, entries);
+            return $"{nameof(Width)}: {Width}, {nameof(Height)}: {Height}";
         }
     }
 
-    internal class Persistence
+    internal class Square : Rectangle
     {
-        public void SaveToFile(Journal j, string filename, bool overwrite = false)
+        public override int Width
         {
-            if (overwrite || !File.Exists(filename))
-            {
-                File.WriteAllText(filename, j.ToString());
-            }
+            
+            set => base.Width = base.Height = value;
+        }
+
+
+        public override int Height
+        {
+            set => base.Width = base.Height = value;
         }
     }
-
+    
     internal static class Demo
     {
+        private static int Area(Rectangle r) => r.Width * r.Height;
         private static void  Main(string[] args)
         {
-            var j = new Journal();
-            j.AddEntry("I cried today");
-            j.AddEntry("I ate a bug");
-            Console.WriteLine(j);
+            Rectangle rc = new Rectangle(2, 3);
+            Console.WriteLine($"{rc} has are {Area(rc)}");
             
-            var p = new Persistence();
-            const string filename = @"C:\Users\dg_gt\Downloads\journal.txt";
-            p.SaveToFile(j, filename, true);
-            Process.Start(filename);
-            
+            // The follow syntax works without using the "override" and "virtual" keywords
+            //  Rectangle sq = new Square {Width = 4};
+            Rectangle sq = new Square();
+            sq.Width = 4;
+            Console.WriteLine($"{sq} has area {Area(sq)}");
         }
     }
 }
