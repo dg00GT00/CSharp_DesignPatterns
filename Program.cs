@@ -2,58 +2,98 @@
 
 namespace Console_BookExamples
 {
-    //************* Liskov principle *************//
-    
-    internal class Rectangle
+    //************* Interface Segregate principle *************//
+    // It's more worth segregate the interface into multiple
+    // dedicated interfaces than code a multipurpose one 
+    public class Document
     {
-        public virtual int Width { get; set; }
-        public virtual int Height { get; set; }
+        
+    }
 
-        public Rectangle()
+    public interface IMachine
+    {
+        void Print(Document d);
+        void Scan(Document d);
+        void Fax(Document d);
+        
+    }
+
+    public class MultiFunctionPrinter : IMachine
+    {
+        public void Print(Document d)
         {
-            
+            throw new NotImplementedException();
         }
 
-        public Rectangle(int width, int height)
+        public void Scan(Document d)
         {
-            Width = width;
-            Height = height;
+            throw new NotImplementedException();
         }
 
-        public override string ToString()
+        public void Fax(Document d)
         {
-            return $"{nameof(Width)}: {Width}, {nameof(Height)}: {Height}";
+            throw new NotImplementedException();
         }
     }
 
-    internal class Square : Rectangle
+    public interface IPrinter
     {
-        public override int Width
+        void Print(Document d);
+        
+    }
+
+    public interface IScanner
+    {
+        void Scan(Document d);
+        
+    }
+
+    public class Photocopier : IPrinter, IScanner
+    {
+        public void Print(Document d)
         {
-            
-            set => base.Width = base.Height = value;
+            throw new NotImplementedException();
         }
 
-
-        public override int Height
+        public void Scan(Document d)
         {
-            set => base.Width = base.Height = value;
+            throw new NotImplementedException();
         }
     }
-    
+
+    public interface IMultiFunctionDevice : IScanner, IPrinter
+    {
+        
+    }
+
+    public class MultiFunctionMachine : IMultiFunctionDevice
+    {
+        private IPrinter _printer;
+        private IScanner _scanner;
+
+        public MultiFunctionMachine(IPrinter printer, IScanner scanner)
+        {
+            _printer = printer;
+            _scanner = scanner;
+        }
+
+        public void Scan(Document d)
+        {
+            _scanner.Scan(d);
+        }
+
+        public void Print(Document d)
+        {
+            _printer.Print(d);
+            
+        }
+    }
+
     internal static class Demo
     {
-        private static int Area(Rectangle r) => r.Width * r.Height;
-        private static void  Main(string[] args)
+        private static void Main()
         {
-            Rectangle rc = new Rectangle(2, 3);
-            Console.WriteLine($"{rc} has are {Area(rc)}");
             
-            // The follow syntax works without using the "override" and "virtual" keywords
-            //  Rectangle sq = new Square {Width = 4};
-            Rectangle sq = new Square();
-            sq.Width = 4;
-            Console.WriteLine($"{sq} has area {Area(sq)}");
         }
     }
 }
