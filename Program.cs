@@ -1,16 +1,44 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace Console_BookExamples
 {
     //************* Prototype principle *************//
     // A partially or fully initialized object that you copy (clone) and make use of. 
-    public interface IPrototype<T>
+    // To implement a prototype, partially construct an object and store it somewhere
+    // Clone the prototype:
+    ////// Implement your own deep copy functionality; or serialize and deserialize
+    // Customize the resulting instance
+    public static class ExtensionMethods
     {
-        T DeepCopy();
+        public static T DeepCopy<T>(this T self)
+        {
+            var stream = new MemoryStream();
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(stream, self);
+            stream.Seek(0, SeekOrigin.Begin);
+            object copy = formatter.Deserialize(stream);
+            stream.Close();
+            return (T) copy;
+        }
+
+        public static T DeepCopyXml<T>(this T self)
+        {
+            using (var ms = new MemoryStream())
+            {
+                var s = new XmlSerializer(typeof(T));
+                s.Serialize(ms, self);
+                ms.Position = 0;
+                return (T) s.Deserialize(ms);
+            }
+        }
     }
-    
-    
-    internal class Person : IPrototype<Person>
+
+//    [Serializable] // Used when requesting the DeepCopy() extension
+    public class Person
+
     {
         public string[] Names;
         public Address Address;
@@ -21,24 +49,20 @@ namespace Console_BookExamples
             Address = address;
         }
 
-        public Person DeepCopy()
+        public Person()
         {
-            return new Person(Names, Address.DeepCopy());
+            // Required to the DeepCopyXml extension method
         }
 
         public override string ToString()
         {
             return $"{nameof(Names)}: {string.Join(" ", Names)}, {nameof(Address)}: {Address}";
         }
-        // C++ copy constructor
-        public Person(Person other)
-        {
-            Names = other.Names;
-            Address = new Address(other.Address);
-        }
     }
 
-    internal class Address: IPrototype<Address>
+//    [Serializable] // Used when requesting the DeepCopy() extension
+    public class Address
+
     {
         public string StreetName;
         public int HouseNumber;
@@ -49,21 +73,15 @@ namespace Console_BookExamples
             HouseNumber = houseNumber;
         }
 
-        public Address DeepCopy()
-        {
-            return new Address(StreetName, HouseNumber);
-        }
 
         public override string ToString()
         {
             return $"{nameof(StreetName)}: {StreetName}, {nameof(HouseNumber)}: {HouseNumber}";
         }
 
-        // C++ copy constructor
-        public Address(Address other)
+        public Address()
         {
-            StreetName = other.StreetName;
-            HouseNumber = other.HouseNumber;
+            // Required to the DeepCopyXml extension method
         }
     }
 
@@ -72,8 +90,10 @@ namespace Console_BookExamples
         private static void Main(string[] args)
         {
             var john = new Person(new[] {"John", "Smith"}, new Address("London Road", 123));
-            var jane = john.DeepCopy();
-            jane.Address.HouseNumber = 321;
+      
+            var jane = john.DeepCopyXml();
+            jane.Names[0] = "Jane";
+            jane.Address.HouseNumber = 234;
 
             Console.WriteLine(john);
             Console.WriteLine(jane);
