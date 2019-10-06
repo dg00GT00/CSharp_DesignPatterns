@@ -4,7 +4,7 @@ namespace Console_BookExamples
 {
     //************* Prototype principle *************//
     // A partially or fully initialized object that you copy (clone) and make use of. 
-    internal class Person : ICloneable
+    internal class Person
     {
         public string[] Names;
         public Address Address;
@@ -19,14 +19,15 @@ namespace Console_BookExamples
         {
             return $"{nameof(Names)}: {string.Join(" ", Names)}, {nameof(Address)}: {Address}";
         }
-
-        public object Clone()
+        // C++ copy constructor
+        public Person(Person other)
         {
-            return new Person(Names, (Address) Address.Clone());
+            Names = other.Names;
+            Address = new Address(other.Address);
         }
     }
 
-    internal class Address : ICloneable
+    internal class Address
     {
         public string StreetName;
         public int HouseNumber;
@@ -42,9 +43,11 @@ namespace Console_BookExamples
             return $"{nameof(StreetName)}: {StreetName}, {nameof(HouseNumber)}: {HouseNumber}";
         }
 
-        public object Clone()
+        // C++ copy constructor
+        public Address(Address other)
         {
-            return new Address(StreetName, HouseNumber);
+            StreetName = other.StreetName;
+            HouseNumber = other.HouseNumber;
         }
     }
 
@@ -53,7 +56,7 @@ namespace Console_BookExamples
         private static void Main(string[] args)
         {
             var john = new Person(new[] {"John", "Smith"}, new Address("London Road", 123));
-            var jane = (Person) john.Clone();
+            var jane = new Person(john);
             jane.Address.HouseNumber = 321;
 
             Console.WriteLine(john);
