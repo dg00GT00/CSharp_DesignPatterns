@@ -4,7 +4,13 @@ namespace Console_BookExamples
 {
     //************* Prototype principle *************//
     // A partially or fully initialized object that you copy (clone) and make use of. 
-    internal class Person
+    public interface IPrototype<T>
+    {
+        T DeepCopy();
+    }
+    
+    
+    internal class Person : IPrototype<Person>
     {
         public string[] Names;
         public Address Address;
@@ -13,6 +19,11 @@ namespace Console_BookExamples
         {
             Names = names;
             Address = address;
+        }
+
+        public Person DeepCopy()
+        {
+            return new Person(Names, Address.DeepCopy());
         }
 
         public override string ToString()
@@ -27,7 +38,7 @@ namespace Console_BookExamples
         }
     }
 
-    internal class Address
+    internal class Address: IPrototype<Address>
     {
         public string StreetName;
         public int HouseNumber;
@@ -36,6 +47,11 @@ namespace Console_BookExamples
         {
             StreetName = streetName;
             HouseNumber = houseNumber;
+        }
+
+        public Address DeepCopy()
+        {
+            return new Address(StreetName, HouseNumber);
         }
 
         public override string ToString()
@@ -56,7 +72,7 @@ namespace Console_BookExamples
         private static void Main(string[] args)
         {
             var john = new Person(new[] {"John", "Smith"}, new Address("London Road", 123));
-            var jane = new Person(john);
+            var jane = john.DeepCopy();
             jane.Address.HouseNumber = 321;
 
             Console.WriteLine(john);
