@@ -2,6 +2,45 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.6": {
+      "Autofac/4.9.4": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Autofac.dll": {}
+        }
+      },
+      "morelinq/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.ValueTuple": "4.4.0"
+        },
+        "frameworkAssemblies": [
+          "System",
+          "System.Data",
+          "System.Data.DataSetExtensions",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/MoreLinq.dll": {}
+        },
+        "runtime": {
+          "lib/net451/MoreLinq.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -13,6 +52,45 @@
       }
     },
     ".NETFramework,Version=v4.6/win": {
+      "Autofac/4.9.4": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Autofac.dll": {}
+        }
+      },
+      "morelinq/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.ValueTuple": "4.4.0"
+        },
+        "frameworkAssemblies": [
+          "System",
+          "System.Data",
+          "System.Data.DataSetExtensions",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/MoreLinq.dll": {}
+        },
+        "runtime": {
+          "lib/net451/MoreLinq.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -24,6 +102,45 @@
       }
     },
     ".NETFramework,Version=v4.6/win-x64": {
+      "Autofac/4.9.4": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Autofac.dll": {}
+        }
+      },
+      "morelinq/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.ValueTuple": "4.4.0"
+        },
+        "frameworkAssemblies": [
+          "System",
+          "System.Data",
+          "System.Data.DataSetExtensions",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/MoreLinq.dll": {}
+        },
+        "runtime": {
+          "lib/net451/MoreLinq.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -35,6 +152,45 @@
       }
     },
     ".NETFramework,Version=v4.6/win-x86": {
+      "Autofac/4.9.4": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Autofac.dll": {}
+        }
+      },
+      "morelinq/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "System.ValueTuple": "4.4.0"
+        },
+        "frameworkAssemblies": [
+          "System",
+          "System.Data",
+          "System.Data.DataSetExtensions",
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/MoreLinq.dll": {}
+        },
+        "runtime": {
+          "lib/net451/MoreLinq.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -47,6 +203,77 @@
     }
   },
   "libraries": {
+    "Autofac/4.9.4": {
+      "sha512": "dYiDG4yoV7GDCoOc66d1sqMmg2gwDyomHKgATuMfhFzYxVpWEltToHVHXI3I9vOEvIXE55S4OZPY0ldiZmZtpA==",
+      "type": "package",
+      "path": "autofac/4.9.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "autofac.4.9.4.nupkg.sha512",
+        "autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.pdb",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.pdb",
+        "lib/netstandard1.1/Autofac.xml",
+        "lib/netstandard2.0/Autofac.dll",
+        "lib/netstandard2.0/Autofac.pdb",
+        "lib/netstandard2.0/Autofac.xml"
+      ]
+    },
+    "morelinq/3.2.0": {
+      "sha512": "Anb2PApG8NYVXR2tG3kYje9E3pNFkyjeTtvhTzaLtCIBs2v1KB3nGuwmsh/froF4TPwqj1Uy9pNadreairnpZQ==",
+      "type": "package",
+      "path": "morelinq/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "COPYING.txt",
+        "lib/net451/MoreLinq.dll",
+        "lib/net451/MoreLinq.pdb",
+        "lib/net451/MoreLinq.xml",
+        "lib/netstandard1.0/MoreLinq.dll",
+        "lib/netstandard1.0/MoreLinq.pdb",
+        "lib/netstandard1.0/MoreLinq.xml",
+        "lib/netstandard2.0/MoreLinq.dll",
+        "lib/netstandard2.0/MoreLinq.pdb",
+        "lib/netstandard2.0/MoreLinq.xml",
+        "morelinq.3.2.0.nupkg.sha512",
+        "morelinq.nuspec"
+      ]
+    },
+    "NUnit/3.12.0": {
+      "sha512": "3oJTrcUcT9wmweBUwgUf0f1XIYy6RZq2ziV+RM95HMKAJGsHPN2i3MKK1dAPvDPMRLz799Llj4eyu/STB9Q7OA==",
+      "type": "package",
+      "path": "nunit/3.12.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGES.md",
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "build/NUnit.props",
+        "lib/net35/nunit.framework.dll",
+        "lib/net35/nunit.framework.pdb",
+        "lib/net35/nunit.framework.xml",
+        "lib/net40/nunit.framework.dll",
+        "lib/net40/nunit.framework.pdb",
+        "lib/net40/nunit.framework.xml",
+        "lib/net45/nunit.framework.dll",
+        "lib/net45/nunit.framework.pdb",
+        "lib/net45/nunit.framework.xml",
+        "lib/netstandard1.4/nunit.framework.dll",
+        "lib/netstandard1.4/nunit.framework.pdb",
+        "lib/netstandard1.4/nunit.framework.xml",
+        "lib/netstandard2.0/nunit.framework.dll",
+        "lib/netstandard2.0/nunit.framework.pdb",
+        "lib/netstandard2.0/nunit.framework.xml",
+        "nunit.3.12.0.nupkg.sha512",
+        "nunit.nuspec"
+      ]
+    },
     "System.ValueTuple/4.5.0": {
       "sha512": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
       "type": "package",
@@ -94,7 +321,10 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.6": [
-      "System.ValueTuple >= 4.5.0"
+      "Autofac >= 4.9.4",
+      "NUnit >= 3.12.0",
+      "System.ValueTuple >= 4.5.0",
+      "morelinq >= 3.2.0"
     ]
   },
   "packageFolders": {
@@ -128,9 +358,21 @@
     "frameworks": {
       "net46": {
         "dependencies": {
+          "Autofac": {
+            "target": "Package",
+            "version": "[4.9.4, )"
+          },
+          "NUnit": {
+            "target": "Package",
+            "version": "[3.12.0, )"
+          },
           "System.ValueTuple": {
             "target": "Package",
             "version": "[4.5.0, )"
+          },
+          "morelinq": {
+            "target": "Package",
+            "version": "[3.2.0, )"
           }
         }
       }
