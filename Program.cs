@@ -1,110 +1,136 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using MoreLinq;
 
 namespace Console_BookExamples
 {
-    //************* Adapter principle *************//
-    // A construct which adapts an existing interface X to conform to the required interface Y 
-    public class Point
-    {
-        public int X, Y;
+    //***************************** Adapter principle *****************************//
+    // Implementing an Adapter is easy
+    // Determine the API you have and the API you need
+    // Create a component which aggregates (has a reference to, ...) the adaptee
+    // Intermediate representations can pile up: use caching and other optmizations
 
-        public Point(int x, int y)
+    public interface IInteger
+    {
+        int Value { get; }
+    }
+
+    public static class Dimensions
+    {
+        public class Two : IInteger
         {
-            X = x;
-            Y = y;
+            public int Value => 2;
+        }
+
+        public class Three : IInteger
+        {
+            public int Value => 3;
         }
     }
 
-    public class Line
+    public class Vector<TSelf, T, D>
+        where D : IInteger, new()
+        where TSelf : Vector<TSelf, T, D>, new()
     {
-        public Point Start, End;
+        protected T[] Data;
 
-        public Line(Point start, Point end)
+        public Vector()
         {
-            Start = start;
-            End = end;
+            Data = new T[new D().Value];
+        }
+
+        public Vector(params T[] values)
+        {
+            var requiredSize = new D().Value;
+            Data = new T[requiredSize];
+
+            var providedSize = values.Length;
+
+            for (int i = 0; i < Math.Min(requiredSize, providedSize); ++i)
+                Data[i] = values[i];
+        }
+
+        public static TSelf Create(params T[] values)
+        {
+            var result = new TSelf();
+            var requiredSize = new D().Value;
+            result.Data = new T[requiredSize];
+
+            var providedSize = values.Length;
+
+            for (int i = 0; i < Math.Min(requiredSize, providedSize); ++i)
+                result.Data[i] = values[i];
+
+            return result;
+        }
+
+        public T this[int index]
+        {
+            get => Data[index];
+            set => Data[index] = value;
         }
     }
 
-    public class VectorObject : Collection<Line>
+    public class VectorOfFloat<TSelf, D>
+        : Vector<TSelf, float, D>
+        where D : IInteger, new()
+        where TSelf : Vector<TSelf, float, D>, new()
     {
     }
 
-    public class VectorRectangle : VectorObject
+    public class VectorOfInt<D> : Vector<VectorOfInt<D>, int, D>
+        where D : IInteger, new()
     {
-        public VectorRectangle(int x, int y, int width, int height)
+        public VectorOfInt()
         {
-            Add(new Line(new Point(x, y), new Point(x + width, y)));
-            Add(new Line(new Point(x + width, y), new Point(x + width, y + height)));
-            Add(new Line(new Point(x, y), new Point(x, y + height)));
-            Add(new Line(new Point(x, y + height), new Point(x + width, y + height)));
         }
-    }
 
-    public class LineToPointAdapter : Collection<Point>
-    {
-        private static int _count;
-
-        public LineToPointAdapter(Line line)
+        public VectorOfInt(params int[] values) : base(values)
         {
-            Console.WriteLine(
-                $"{++_count}: Generating points for line [{line.Start.X}, {line.Start.Y}]-[{line.End.X}, {line.End.Y}]");
-            
-            int left = Math.Min(line.Start.X, line.End.X);
-            int right = Math.Max(line.Start.X, line.End.X);
-            int top = Math.Min(line.Start.Y, line.End.Y);
-            int bottom = Math.Max(line.Start.Y, line.End.Y);
-            int dx = right - left;
-            int dy = line.End.Y - line.Start.Y;
+        }
 
-            if (dx == 0)
+        public static VectorOfInt<D> operator + (VectorOfInt<D> lhs, VectorOfInt<D> rhs)
+        {
+            var result = new VectorOfInt<D>();
+            var dim = new D().Value;
+            for (int i = 0; i < dim; i++)
             {
-                for (int y = top; y <= bottom; ++y)
-                {
-                    Add(new Point(left, y));
-                }
+                result[i] = lhs[i] + rhs[i];
             }
-            else if (dy == 0)
-            {
-                for (int x = left; x <= right; ++x)
-                {
-                    Add(new Point(x, top));
-                }
-            }
+
+            return result;
         }
     }
 
-    internal static class Demo
+    public class Vector2i : VectorOfInt<Dimensions.Two>
     {
-        private static readonly List<VectorObject> VectorObjects = new List<VectorObject>
+        public Vector2i()
         {
-            new VectorRectangle(1, 1, 10, 10),
-            new VectorRectangle(3, 3, 6, 6)
-        };
-
-
-        public static void DrawPoint(Point p)
-        {
-            Console.Write(".");
         }
 
-        private static void Main(string[] args)
+        public Vector2i(params int[] values) : base(values)
         {
-            Draw();
         }
+    }
 
-        private static void Draw()
+    public class Vector3f : VectorOfFloat<Vector3f, Dimensions.Three>
+    {
+        public override string ToString()
         {
-            foreach (var vo in VectorObjects)
-            {
-                foreach (var line in vo)
-                {
-                    new LineToPointAdapter(line).ForEach(DrawPoint);
-                }
-            }
+            return $"{string.Join(",", Data)}";
+        }
+    }
+
+    class Demo
+    {
+        public static void Main(string[] args)
+        {
+            var v = new Vector2i(1, 2);
+            v[0] = 0;
+
+            var vv = new Vector2i(3, 2);
+
+            var result = v + vv;
+
+            Vector3f u = Vector3f.Create(3.5f, 2.2f, 1);
         }
     }
 }
