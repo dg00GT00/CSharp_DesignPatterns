@@ -6,3 +6,5 @@ C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples
 C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.pdb
 C:\Users\dg_gt\RiderProjects\Console_BookExamples\bin\Debug\System.ValueTuple.dll
 C:\Users\dg_gt\RiderProjects\Console_BookExamples\obj\Debug\Console_BookExamples.csproj.CopyComplete
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\bin\Debug\MoreLinq.dll
+C:\Users\dg_gt\RiderProjects\Console_BookExamples\bin\Debug\MoreLinq.pdb

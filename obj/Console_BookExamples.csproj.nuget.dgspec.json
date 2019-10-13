@@ -35,6 +35,10 @@
             "System.ValueTuple": {
               "target": "Package",
               "version": "[4.5.0, )"
+            },
+            "morelinq": {
+              "target": "Package",
+              "version": "[3.2.0, )"
             }
           }
         }
