@@ -2,17 +2,23 @@
 
 namespace Console_BookExamples
 {
-    //************* Decorator principle *************//
-    // Facilitates the addition of behaviors to individual objects without
-    // inheriting from them
-    public interface IShape
+    //************************************** Decorator principle **************************************//
+    // Facilitates the addition of behaviors to individual objects without inheriting from them
+    // A decorator keeps the reference to the decorated objects(s)
+    // May or may not proxy over calls
+    // Exists in a static variation but is very limited due to inability to inherit from type parameters
+    public abstract class Shape
     {
-        string AsString();
+        public abstract string AsString();
     }
 
-    public class Circle : IShape
+    public class Circle : Shape
     {
         private float _radius;
+
+        public Circle() : this(0.0f)
+        {
+        }
 
         public Circle(float radius)
         {
@@ -24,61 +30,96 @@ namespace Console_BookExamples
             _radius *= factor;
         }
 
-        public string AsString() => $"A circle with radius {_radius}";
+        public override string AsString() => $"A circle with radius {_radius}";
     }
 
-    public class Square : IShape
+    public class Square : Shape
     {
         private float _side;
+
+        public Square() : this(0.0f)
+        {
+        }
 
         public Square(float side)
         {
             _side = side;
         }
 
-        public string AsString() => $"A square with side {_side}";
+        public override string AsString() => $"A square with side {_side}";
     }
 
-    public class ColoredShape : IShape
+    public class ColoredShape : Shape
     {
-        private IShape _shape;
+        private Shape _shape;
         private string _color;
 
-        public ColoredShape(IShape shape, string color)
+        public ColoredShape(Shape shape, string color)
         {
             _shape = shape;
             _color = color;
         }
 
-        public string AsString() => $"{_shape.AsString()} has the color {_color}";
+        public override string AsString() => $"{_shape.AsString()} has the color {_color}";
     }
 
-    public class TransparentShape: IShape
+    public class TransparentShape : Shape
     {
-        private IShape _shape;
+        private Shape _shape;
         private float _transparency;
 
-        public TransparentShape(IShape shape, float transparency)
+        public TransparentShape(Shape shape, float transparency)
         {
             _shape = shape;
             this._transparency = transparency;
         }
-        public string AsString() => $"{_shape.AsString()} has {_transparency * 100.0}% transparency";
+
+        public override string AsString() => $"{_shape.AsString()} has {_transparency * 100.0}% transparency";
+    }
+
+    public class ColoredShape<T> : Shape where T : Shape, new()
+    {
+        private string _color;
+        private T _shape = new T();
+
+        public ColoredShape() : this("black")
+        {
+        }
+
+        public ColoredShape(string color)
+        {
+            _color = color;
+        }
+        public override string AsString() => $"{_shape.AsString()} has the color {_color}";
+    }
+
+    public class TransparentShape<T> : Shape where T : Shape, new()
+    {
+        private float _transparency;
+        private T _shape = new T();
+
+        public TransparentShape() : this(0)
+        {
+        }
+
+        public TransparentShape(float transparency)
+        {
+            _transparency = transparency;
+        }
+
+
+        public override string AsString() => $"{_shape.AsString()} has {_transparency * 100.0f}% transparency";
     }
 
     internal static class Demo
     {
         private static void Main(string[] args)
         {
-            var square = new Square(1.23f);
-            Console.WriteLine(square.AsString());
+            var redSqure = new ColoredShape<Square>();
+            Console.WriteLine(redSqure.AsString());
 
-            var redSquare = new ColoredShape(square, "red");
-            Console.WriteLine(redSquare.AsString());
-
-
-            var redHalfTransparentSquare = new TransparentShape(redSquare, 0.5f);
-            Console.WriteLine(redHalfTransparentSquare.AsString());
+            var circle = new TransparentShape<ColoredShape<Circle>>(0.4f);
+            Console.WriteLine(circle.AsString());
         }
     }
 }
