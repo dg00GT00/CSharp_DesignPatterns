@@ -1,354 +1,77 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace Console_BookExamples
 {
     //************* Decorator principle *************//
-    public class MyStringBuilder
+    // Facilitates the addition of behaviors to individual objects without
+    // inheriting from them
+    public interface IBird
     {
-        private StringBuilder _sb = new StringBuilder();
+        void Fly();
+        int Weight { get; set; }
+    }
 
-        public static implicit operator MyStringBuilder(string s)
-        {
-            var msb = new MyStringBuilder();
-            msb.Append(s);
-            return msb;
-        }
-
-        public static MyStringBuilder operator +(MyStringBuilder msb, string s)
-        {
-            msb.Append(s);
-            return msb;
-        }
-
-        public override string ToString()
-        {
-            return _sb.ToString();
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            ((ISerializable) _sb).GetObjectData(info, context);
-        }
-
-        public int EnsureCapacity(int capacity)
-        {
-            return _sb.EnsureCapacity(capacity);
-        }
-
-        public string ToString(int startIndex, int length)
-        {
-            return _sb.ToString(startIndex, length);
-        }
-
-        public StringBuilder Clear()
-        {
-            return _sb.Clear();
-        }
-
-        public StringBuilder Append(char value, int repeatCount)
-        {
-            return _sb.Append(value, repeatCount);
-        }
-
-        public StringBuilder Append(char[] value, int startIndex, int charCount)
-        {
-            return _sb.Append(value, startIndex, charCount);
-        }
-
-        public StringBuilder Append(string value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(string value, int startIndex, int count)
-        {
-            return _sb.Append(value, startIndex, count);
-        }
-
-        public StringBuilder AppendLine()
-        {
-            return _sb.AppendLine();
-        }
-
-        public StringBuilder AppendLine(string value)
-        {
-            return _sb.AppendLine(value);
-        }
-
-        public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
-        {
-            _sb.CopyTo(sourceIndex, destination, destinationIndex, count);
-        }
-
-        public StringBuilder Insert(int index, string value, int count)
-        {
-            return _sb.Insert(index, value, count);
-        }
-
-        public StringBuilder Remove(int startIndex, int length)
-        {
-            return _sb.Remove(startIndex, length);
-        }
-
-        public StringBuilder Append(bool value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(sbyte value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(byte value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(char value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(short value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(int value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(long value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(float value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(double value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(decimal value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(ushort value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(uint value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(ulong value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(object value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Append(char[] value)
-        {
-            return _sb.Append(value);
-        }
-
-        public StringBuilder Insert(int index, string value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, bool value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, sbyte value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, byte value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, short value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, char value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, char[] value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, char[] value, int startIndex, int charCount)
-        {
-            return _sb.Insert(index, value, startIndex, charCount);
-        }
-
-        public StringBuilder Insert(int index, int value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, long value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, float value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, double value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, decimal value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, ushort value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, uint value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, ulong value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder Insert(int index, object value)
-        {
-            return _sb.Insert(index, value);
-        }
-
-        public StringBuilder AppendFormat(string format, object arg0)
-        {
-            return _sb.AppendFormat(format, arg0);
-        }
-
-        public StringBuilder AppendFormat(string format, object arg0, object arg1)
-        {
-            return _sb.AppendFormat(format, arg0, arg1);
-        }
-
-        public StringBuilder AppendFormat(string format, object arg0, object arg1, object arg2)
-        {
-            return _sb.AppendFormat(format, arg0, arg1, arg2);
-        }
-
-        public StringBuilder AppendFormat(string format, params object[] args)
-        {
-            return _sb.AppendFormat(format, args);
-        }
-
-        public StringBuilder AppendFormat(IFormatProvider provider, string format, object arg0)
-        {
-            return _sb.AppendFormat(provider, format, arg0);
-        }
-
-        public StringBuilder AppendFormat(IFormatProvider provider, string format, object arg0, object arg1)
-        {
-            return _sb.AppendFormat(provider, format, arg0, arg1);
-        }
-
-        public StringBuilder AppendFormat(IFormatProvider provider, string format, object arg0, object arg1, object arg2)
-        {
-            return _sb.AppendFormat(provider, format, arg0, arg1, arg2);
-        }
-
-        public StringBuilder AppendFormat(IFormatProvider provider, string format, params object[] args)
-        {
-            return _sb.AppendFormat(provider, format, args);
-        }
-
-        public StringBuilder Replace(string oldValue, string newValue)
-        {
-            return _sb.Replace(oldValue, newValue);
-        }
+    public class Bird : IBird
+    {
+        public int Weight { get; set; }
 
-        public bool Equals(StringBuilder sb)
+        public void Fly()
         {
-            return _sb.Equals(sb);
+            Console.WriteLine($"Soring in the sky with weigth: {Weight}");
         }
+    }
 
-        public StringBuilder Replace(string oldValue, string newValue, int startIndex, int count)
-        {
-            return _sb.Replace(oldValue, newValue, startIndex, count);
-        }
+    public interface ILizard
+    {
+        void Crawl();
+        int Weight { get; set; }
+    }
 
-        public StringBuilder Replace(char oldChar, char newChar)
-        {
-            return _sb.Replace(oldChar, newChar);
-        }
+    public class Lizard : ILizard
+    {
+        public int Weight { get; set; }
 
-        public StringBuilder Replace(char oldChar, char newChar, int startIndex, int count)
+        public void Crawl()
         {
-            return _sb.Replace(oldChar, newChar, startIndex, count);
+            Console.WriteLine($"Crawling in the dirt with weight: {Weight}");
         }
+    }
 
-        public unsafe StringBuilder Append(char* value, int valueCount)
-        {
-            return _sb.Append(value, valueCount);
-        }
+    public class Dragon : IBird, ILizard
+    {
+        private Bird _bird = new Bird();
+        private Lizard _lizard = new Lizard();
+        private int _weight;
 
-        public int Capacity
+        public void Crawl()
         {
-            get => _sb.Capacity;
-            set => _sb.Capacity = value;
+            _lizard.Crawl();
         }
-
-        public int MaxCapacity => _sb.MaxCapacity;
 
-        public int Length
+        public void Fly()
         {
-            get => _sb.Length;
-            set => _sb.Length = value;
+            _bird.Fly();
         }
 
-        public char this[int index]
+        public int Weight
         {
-            get => _sb[index];
-            set => _sb[index] = value;
+            get => _weight;
+            set
+            {
+                _weight = value;
+                _bird.Weight = value;
+                _lizard.Weight = value;
+            }
         }
     }
     internal static class Demo
     {
         private static void Main(string[] args)
         {
-            MyStringBuilder s = "Hello ";
-            s += "World";
-            Console.WriteLine(s);
+            var d = new Dragon();
+            d.Weight = 234;
+            d.Fly();
+            d.Crawl();
         }
     }
 }
