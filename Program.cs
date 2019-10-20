@@ -5,397 +5,350 @@ using System.Text;
 namespace Console_BookExamples
 {
     //************* Decorator principle *************//
-    // Facilitates the addition of behaviors to individual objects without
-    // inheriting from them
-    public class CodeBuilder
+    public class MyStringBuilder
     {
-        private StringBuilder _builder = new StringBuilder();
+        private StringBuilder _sb = new StringBuilder();
+
+        public static implicit operator MyStringBuilder(string s)
+        {
+            var msb = new MyStringBuilder();
+            msb.Append(s);
+            return msb;
+        }
+
+        public static MyStringBuilder operator +(MyStringBuilder msb, string s)
+        {
+            msb.Append(s);
+            return msb;
+        }
 
         public override string ToString()
         {
-            return _builder.ToString();
+            return _sb.ToString();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            ((ISerializable) _builder).GetObjectData(info, context);
+            ((ISerializable) _sb).GetObjectData(info, context);
         }
 
         public int EnsureCapacity(int capacity)
         {
-            return _builder.EnsureCapacity(capacity);
+            return _sb.EnsureCapacity(capacity);
         }
 
         public string ToString(int startIndex, int length)
         {
-            return _builder.ToString(startIndex, length);
+            return _sb.ToString(startIndex, length);
         }
 
-        public CodeBuilder Clear()
+        public StringBuilder Clear()
         {
-            _builder.Clear();
-            return this;
+            return _sb.Clear();
         }
 
-        public CodeBuilder Append(char value, int repeatCount)
+        public StringBuilder Append(char value, int repeatCount)
         {
-            _builder.Append(value, repeatCount);
-            return this;
+            return _sb.Append(value, repeatCount);
         }
 
-        public CodeBuilder Append(char[] value, int startIndex, int charCount)
+        public StringBuilder Append(char[] value, int startIndex, int charCount)
         {
-            _builder.Append(value, startIndex, charCount);
-            return this;
+            return _sb.Append(value, startIndex, charCount);
         }
 
-        public CodeBuilder Append(string value)
+        public StringBuilder Append(string value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(string value, int startIndex, int count)
+        public StringBuilder Append(string value, int startIndex, int count)
         {
-            _builder.Append(value, startIndex, count);
-            return this;
+            return _sb.Append(value, startIndex, count);
         }
 
-        public CodeBuilder AppendLine()
+        public StringBuilder AppendLine()
         {
-            _builder.AppendLine();
-            return this;
+            return _sb.AppendLine();
         }
 
-        public CodeBuilder AppendLine(string value)
+        public StringBuilder AppendLine(string value)
         {
-            _builder.AppendLine(value);
-            return this;
+            return _sb.AppendLine(value);
         }
 
         public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
         {
-            _builder.CopyTo(sourceIndex, destination, destinationIndex, count);
+            _sb.CopyTo(sourceIndex, destination, destinationIndex, count);
         }
 
-        public CodeBuilder Insert(int index, string value, int count)
+        public StringBuilder Insert(int index, string value, int count)
         {
-            _builder.Insert(index, value, count);
-            return this;
+            return _sb.Insert(index, value, count);
         }
 
-        public CodeBuilder Remove(int startIndex, int length)
+        public StringBuilder Remove(int startIndex, int length)
         {
-            _builder.Remove(startIndex, length);
-            return this;
+            return _sb.Remove(startIndex, length);
         }
 
-        public CodeBuilder Append(bool value)
+        public StringBuilder Append(bool value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(sbyte value)
+        public StringBuilder Append(sbyte value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(byte value)
+        public StringBuilder Append(byte value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(char value)
+        public StringBuilder Append(char value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(short value)
+        public StringBuilder Append(short value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(int value)
+        public StringBuilder Append(int value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(long value)
+        public StringBuilder Append(long value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(float value)
+        public StringBuilder Append(float value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(double value)
+        public StringBuilder Append(double value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(decimal value)
+        public StringBuilder Append(decimal value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(ushort value)
+        public StringBuilder Append(ushort value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(uint value)
+        public StringBuilder Append(uint value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(ulong value)
+        public StringBuilder Append(ulong value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(object value)
+        public StringBuilder Append(object value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Append(char[] value)
+        public StringBuilder Append(char[] value)
         {
-            _builder.Append(value);
-            return this;
+            return _sb.Append(value);
         }
 
-        public CodeBuilder Insert(int index, string value)
+        public StringBuilder Insert(int index, string value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, bool value)
+        public StringBuilder Insert(int index, bool value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, sbyte value)
+        public StringBuilder Insert(int index, sbyte value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, byte value)
+        public StringBuilder Insert(int index, byte value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, short value)
+        public StringBuilder Insert(int index, short value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, char value)
+        public StringBuilder Insert(int index, char value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, char[] value)
+        public StringBuilder Insert(int index, char[] value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, char[] value, int startIndex, int charCount)
+        public StringBuilder Insert(int index, char[] value, int startIndex, int charCount)
         {
-            _builder.Insert(index, value, startIndex, charCount);
-            return this;
+            return _sb.Insert(index, value, startIndex, charCount);
         }
 
-        public CodeBuilder Insert(int index, int value)
+        public StringBuilder Insert(int index, int value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, long value)
+        public StringBuilder Insert(int index, long value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, float value)
+        public StringBuilder Insert(int index, float value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, double value)
+        public StringBuilder Insert(int index, double value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, decimal value)
+        public StringBuilder Insert(int index, decimal value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, ushort value)
+        public StringBuilder Insert(int index, ushort value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, uint value)
+        public StringBuilder Insert(int index, uint value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, ulong value)
+        public StringBuilder Insert(int index, ulong value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder Insert(int index, object value)
+        public StringBuilder Insert(int index, object value)
         {
-            _builder.Insert(index, value);
-            return this;
+            return _sb.Insert(index, value);
         }
 
-        public CodeBuilder AppendFormat(string format, object arg0)
+        public StringBuilder AppendFormat(string format, object arg0)
         {
-            _builder.AppendFormat(format, arg0);
-            return this;
+            return _sb.AppendFormat(format, arg0);
         }
 
-        public CodeBuilder AppendFormat(string format, object arg0, object arg1)
+        public StringBuilder AppendFormat(string format, object arg0, object arg1)
         {
-            _builder.AppendFormat(format, arg0, arg1);
-            return this;
+            return _sb.AppendFormat(format, arg0, arg1);
         }
 
-        public CodeBuilder AppendFormat(string format, object arg0, object arg1, object arg2)
+        public StringBuilder AppendFormat(string format, object arg0, object arg1, object arg2)
         {
-            _builder.AppendFormat(format, arg0, arg1, arg2);
-            return this;
+            return _sb.AppendFormat(format, arg0, arg1, arg2);
         }
 
-        public CodeBuilder AppendFormat(string format, params object[] args)
+        public StringBuilder AppendFormat(string format, params object[] args)
         {
-            _builder.AppendFormat(format, args);
-            return this;
+            return _sb.AppendFormat(format, args);
         }
 
-        public CodeBuilder AppendFormat(IFormatProvider provider, string format, object arg0)
+        public StringBuilder AppendFormat(IFormatProvider provider, string format, object arg0)
         {
-            _builder.AppendFormat(provider, format, arg0);
-            return this;
+            return _sb.AppendFormat(provider, format, arg0);
         }
 
-        public CodeBuilder AppendFormat(IFormatProvider provider, string format, object arg0, object arg1)
+        public StringBuilder AppendFormat(IFormatProvider provider, string format, object arg0, object arg1)
         {
-            _builder.AppendFormat(provider, format, arg0, arg1);
-            return this;
+            return _sb.AppendFormat(provider, format, arg0, arg1);
         }
 
-        public CodeBuilder AppendFormat(IFormatProvider provider, string format, object arg0, object arg1, object arg2)
+        public StringBuilder AppendFormat(IFormatProvider provider, string format, object arg0, object arg1, object arg2)
         {
-            _builder.AppendFormat(provider, format, arg0, arg1, arg2);
-            return this;
+            return _sb.AppendFormat(provider, format, arg0, arg1, arg2);
         }
 
-        public CodeBuilder AppendFormat(IFormatProvider provider, string format, params object[] args)
+        public StringBuilder AppendFormat(IFormatProvider provider, string format, params object[] args)
         {
-            _builder.AppendFormat(provider, format, args);
-            return this;
+            return _sb.AppendFormat(provider, format, args);
         }
 
-        public CodeBuilder Replace(string oldValue, string newValue)
+        public StringBuilder Replace(string oldValue, string newValue)
         {
-            _builder.Replace(oldValue, newValue);
-            return this;
+            return _sb.Replace(oldValue, newValue);
         }
 
-        public bool Equals(CodeBuilder sb)
+        public bool Equals(StringBuilder sb)
         {
-            return _builder.Equals(sb);
+            return _sb.Equals(sb);
         }
 
-        public CodeBuilder Replace(string oldValue, string newValue, int startIndex, int count)
+        public StringBuilder Replace(string oldValue, string newValue, int startIndex, int count)
         {
-            _builder.Replace(oldValue, newValue, startIndex, count);
-            return this;
+            return _sb.Replace(oldValue, newValue, startIndex, count);
         }
 
-        public CodeBuilder Replace(char oldChar, char newChar)
+        public StringBuilder Replace(char oldChar, char newChar)
         {
-            _builder.Replace(oldChar, newChar);
-            return this;
+            return _sb.Replace(oldChar, newChar);
         }
 
-        public CodeBuilder Replace(char oldChar, char newChar, int startIndex, int count)
+        public StringBuilder Replace(char oldChar, char newChar, int startIndex, int count)
         {
-            _builder.Replace(oldChar, newChar, startIndex, count);
-            return this;
+            return _sb.Replace(oldChar, newChar, startIndex, count);
         }
 
-        public unsafe CodeBuilder Append(char* value, int valueCount)
+        public unsafe StringBuilder Append(char* value, int valueCount)
         {
-            _builder.Append(value, valueCount);
-            return this;
+            return _sb.Append(value, valueCount);
         }
 
         public int Capacity
         {
-            get => _builder.Capacity;
-            set => _builder.Capacity = value;
+            get => _sb.Capacity;
+            set => _sb.Capacity = value;
         }
 
-        public int MaxCapacity => _builder.MaxCapacity;
+        public int MaxCapacity => _sb.MaxCapacity;
 
         public int Length
         {
-            get => _builder.Length;
-            set => _builder.Length = value;
+            get => _sb.Length;
+            set => _sb.Length = value;
         }
 
         public char this[int index]
         {
-            get => _builder[index];
-            set => _builder[index] = value;
+            get => _sb[index];
+            set => _sb[index] = value;
         }
     }
-
     internal static class Demo
     {
         private static void Main(string[] args)
         {
-            var cb = new CodeBuilder();
-            cb.AppendLine("class Foo")
-                .AppendLine("{")
-                .AppendLine("}");
-
-            Console.WriteLine(cb);
+            MyStringBuilder s = "Hello ";
+            s += "World";
+            Console.WriteLine(s);
         }
     }
 }
