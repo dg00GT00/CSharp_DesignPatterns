@@ -1,95 +1,100 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using JetBrains.dotMemoryUnit;
-using NUnit.Framework;
+using System.Text;
 
 namespace Console_BookExamples
 {
     //************* Flyweight principle *************//
-    // A space optimization technique that lets use use less memory by storeing externally the data
+    // A space optimization technique that lets use use less memory by storing externally the data
     // associate with similar objects
-    internal class User
+    public class FormattedTex
     {
-        private string _fullName;
+        private readonly string _plainText;
+        private bool[] _capitalize;
 
-        public User(string fullName)
+        public FormattedTex(string plainText)
         {
-            _fullName = fullName;
+            _plainText = plainText;
+            _capitalize = new bool[plainText.Length];
         }
-    }
 
-    internal class User2
-    {
-        static List<string> strings = new List<string>();
-        private int[] _names;
-
-        public User2(string fullName)
+        public void Capitalize(int start, int end)
         {
-            int GetOrAdd(string s)
+            for (int i = start; i <= end; i++)
             {
-                int idx = strings.IndexOf(s);
-                if (idx != -1) return idx;
-                strings.Add(s);
-                return strings.Count - 1;
+                _capitalize[i] = true;}
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < _plainText.Length; i++)
+            {
+                var c = _plainText[i];
+                sb.Append(_capitalize[i] ? char.ToUpper(c) : c);
             }
 
-            _names = fullName.Split(' ').Select(GetOrAdd).ToArray();
+            return sb.ToString();
         }
-
-        public string FullName => string.Join(" ", _names.Select(i => strings[i]));
     }
 
-    [TestFixture]
+    public class BetterFormattedText
+    {
+        private string _plainText;
+        private List<TextRange> _formatting = new List<TextRange>();
+
+        public BetterFormattedText(string plainText)
+        {
+            _plainText = plainText;
+        }
+
+        public class TextRange
+        {
+            public int Start, End;
+            public bool Capitalize, Bold, Italic;
+
+            public bool Covers(int position)
+            {
+                return position >= Start && position <= End;
+            }
+        }
+
+        public TextRange GetRange(int start, int end)
+        {
+            var range = new TextRange {Start = start, End = end};
+            _formatting.Add(range);
+            return range;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < _plainText.Length; i++)
+            {
+                var c = _plainText[i];
+                c = _formatting
+                    .Where(range => range.Covers(i) && range.Capitalize)
+                    .Aggregate(c, (current, range) => char.ToUpper(current));
+
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+    }
+
     internal static class Demo
     {
         private static void Main(string[] args)
         {
-        }
+            var ft = new FormattedTex("This is a brave new world");
+            ft.Capitalize(10, 15);
+            Console.WriteLine(ft);
 
-        [Test]
-        public static void TestUser() //3340613
-        {
-            var firstNames = Enumerable.Range(0, 100).Select(_ => RandomString());
-            var lastNames = Enumerable.Range(0, 100).Select(_ => RandomString());
-            var users = (
-                from firstName in firstNames
-                from lastNme in lastNames
-                select new User($"{firstName} {lastNames}")
-            ).ToList();
-
-            ForceGc();
-
-            dotMemory.Check(memory => { Console.WriteLine(memory.SizeInBytes); });
-        }
-        [Test]
-        public static void TestUser2() //1543885
-        {
-            var firstNames = Enumerable.Range(0, 100).Select(_ => RandomString());
-            var lastNames = Enumerable.Range(0, 100).Select(_ => RandomString());
-            var users = (
-                from firstName in firstNames
-                from lastNme in lastNames
-                select new User2($"{firstName} {lastNames}")
-            ).ToList();
-
-            ForceGc();
-
-            dotMemory.Check(memory => { Console.WriteLine(memory.SizeInBytes); });
-        }
-
-        private static void ForceGc()
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-        }
-
-        private static string RandomString()
-        {
-            Random rand = new Random();
-            return new string(Enumerable.Range(0, 10).Select(i => (char) ('a' + rand.Next(26))).ToArray());
+            var bft = new BetterFormattedText("This is a brave new world");
+            bft.GetRange(10, 15).Capitalize = true;
+            Console.WriteLine(bft.ToString());
         }
     }
 }
