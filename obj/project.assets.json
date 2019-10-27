@@ -2,6 +2,27 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.6": {
+      "JetBrains.dotMemoryUnit/3.0.20171219.105559": {
+        "type": "package",
+        "compile": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        },
+        "runtime": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -13,6 +34,27 @@
       }
     },
     ".NETFramework,Version=v4.6/win": {
+      "JetBrains.dotMemoryUnit/3.0.20171219.105559": {
+        "type": "package",
+        "compile": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        },
+        "runtime": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -24,6 +66,27 @@
       }
     },
     ".NETFramework,Version=v4.6/win-x64": {
+      "JetBrains.dotMemoryUnit/3.0.20171219.105559": {
+        "type": "package",
+        "compile": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        },
+        "runtime": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -35,6 +98,27 @@
       }
     },
     ".NETFramework,Version=v4.6/win-x86": {
+      "JetBrains.dotMemoryUnit/3.0.20171219.105559": {
+        "type": "package",
+        "compile": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        },
+        "runtime": {
+          "lib/net35/dotMemory.Unit.dll": {}
+        }
+      },
+      "NUnit/3.12.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/nunit.framework.dll": {}
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "System.ValueTuple/4.5.0": {
         "type": "package",
         "compile": {
@@ -47,6 +131,139 @@
     }
   },
   "libraries": {
+    "JetBrains.dotMemoryUnit/3.0.20171219.105559": {
+      "sha512": "hiyO5il6mapGmP+u1AWPr5YZxMAUcBlO4GQuMEmTNV1LHd2/3GoJMTh5JrbjNDnMwjeWXAyAojcqPEXmE1XUag==",
+      "type": "package",
+      "path": "jetbrains.dotmemoryunit/3.0.20171219.105559",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jetbrains.dotmemoryunit.3.0.20171219.105559.nupkg.sha512",
+        "jetbrains.dotmemoryunit.nuspec",
+        "lib/net35/dotMemory.Unit.dll",
+        "lib/net35/dotMemory.Unit.xml",
+        "lib/netstandard2.0/dotMemory.Unit.dll",
+        "lib/netstandard2.0/dotMemory.Unit.xml",
+        "lib/tools/BLToolkit.3.dll",
+        "lib/tools/Castle.Core.dll",
+        "lib/tools/DotNetZip.dll",
+        "lib/tools/JetBrains.Annotations.dll",
+        "lib/tools/JetBrains.CommandLine.Interop.dll",
+        "lib/tools/JetBrains.Common.CallTreeStorage.dll",
+        "lib/tools/JetBrains.Common.ExternalStorage.CLR40.exe",
+        "lib/tools/JetBrains.Common.ExternalStorage.CLR40.exe.config",
+        "lib/tools/JetBrains.Common.ExternalStorage.CLR40.x86.exe",
+        "lib/tools/JetBrains.Common.ExternalStorage.CLR40.x86.exe.config",
+        "lib/tools/JetBrains.Common.JetInjector.Interface.dll",
+        "lib/tools/JetBrains.Common.JetInjector.dll",
+        "lib/tools/JetBrains.Common.Remotable.Proxy.dll",
+        "lib/tools/JetBrains.Common.Remotable.Util.dll",
+        "lib/tools/JetBrains.Common.Remotable.dll",
+        "lib/tools/JetBrains.Common.Util.Metadata.dll",
+        "lib/tools/JetBrains.Common.Util.Shell.dll",
+        "lib/tools/JetBrains.Common.Util.dll",
+        "lib/tools/JetBrains.Etw.dll",
+        "lib/tools/JetBrains.Platform.ComponentModel.dll",
+        "lib/tools/JetBrains.Platform.Core.dll",
+        "lib/tools/JetBrains.Platform.Interop.WinApi.dll",
+        "lib/tools/JetBrains.Platform.Metadata.dll",
+        "lib/tools/JetBrains.Platform.RdCore.dll",
+        "lib/tools/JetBrains.Platform.Shell.dll",
+        "lib/tools/JetBrains.Platform.UIInteractive.Shell.dll",
+        "lib/tools/JetBrains.Platform.Util.dll",
+        "lib/tools/JetBrains.Profiler.Snapshot.Interface.dll",
+        "lib/tools/JetBrains.Profiler.Snapshot.dll",
+        "lib/tools/JetBrains.Profiler.Util.dll",
+        "lib/tools/JetBrains.Profiler.Windows.Api.dll",
+        "lib/tools/JetBrains.Profiler.Windows.Impl.dll",
+        "lib/tools/JetBrains.Profiler.Windows.Impl.dll.config",
+        "lib/tools/JetBrains.Profiler.Windows.RemoteAgent.dll",
+        "lib/tools/JetBrains.Profiler.Windows.RemoteAgent.dll.config",
+        "lib/tools/JetBrains.Profiler.Windows.SysTools.dll",
+        "lib/tools/JetBrains.Profiler.Windows.dll",
+        "lib/tools/JetBrains.Profiler.dll",
+        "lib/tools/JetBrains.dotMemory.Assembler.dll",
+        "lib/tools/JetBrains.dotMemory.Core.dll",
+        "lib/tools/JetBrains.dotMemory.Dal.Interface.dll",
+        "lib/tools/JetBrains.dotMemory.Dal.dll",
+        "lib/tools/JetBrains.dotMemory.Model.Interface.dll",
+        "lib/tools/JetBrains.dotMemory.Model.dll",
+        "lib/tools/JetBrains.dotMemory.Resources.dll",
+        "lib/tools/JetBrains.dotMemory.Shellless.dll",
+        "lib/tools/JetBrains.dotMemoryUnit.ClientController.dll",
+        "lib/tools/JetBrains.dotMemoryUnit.Interface.dll",
+        "lib/tools/JetBrains.dotMemoryUnit.Interop.Console.dll",
+        "lib/tools/JetBrains.dotMemoryUnit.Server.exe",
+        "lib/tools/JetBrains.dotMemoryUnit.Server.exe.config",
+        "lib/tools/Newtonsoft.Json.dll",
+        "lib/tools/dotMemory.Unit.dll",
+        "lib/tools/dotMemory.Unit.xml",
+        "lib/tools/dotMemoryUnit.config.xslt",
+        "lib/tools/dotMemoryUnit.exe",
+        "lib/tools/dotMemoryUnit.exe.config",
+        "lib/tools/dotMemory_Unit_license.pdf",
+        "lib/tools/netstandard2.0/JetBrains.Platform.Interop.WinApi.dll",
+        "lib/tools/netstandard2.0/JetBrains.dotMemoryUnit.ClientController.dll",
+        "lib/tools/netstandard2.0/JetBrains.dotMemoryUnit.Interface.dll",
+        "lib/tools/netstandard2.0/System.Buffers.dll",
+        "lib/tools/netstandard2.0/System.IO.dll",
+        "lib/tools/netstandard2.0/System.Net.Http.WinHttpHandler.dll",
+        "lib/tools/netstandard2.0/System.Private.ServiceModel.dll",
+        "lib/tools/netstandard2.0/System.Private.Uri.dll",
+        "lib/tools/netstandard2.0/System.Reflection.DispatchProxy.dll",
+        "lib/tools/netstandard2.0/System.Reflection.Emit.ILGeneration.dll",
+        "lib/tools/netstandard2.0/System.Reflection.Emit.dll",
+        "lib/tools/netstandard2.0/System.Reflection.Primitives.dll",
+        "lib/tools/netstandard2.0/System.Reflection.dll",
+        "lib/tools/netstandard2.0/System.Runtime.dll",
+        "lib/tools/netstandard2.0/System.Security.Principal.Windows.dll",
+        "lib/tools/netstandard2.0/System.ServiceModel.NetTcp.dll",
+        "lib/tools/netstandard2.0/System.ServiceModel.Primitives.dll",
+        "lib/tools/netstandard2.0/System.Text.Encoding.dll",
+        "lib/tools/netstandard2.0/System.Threading.Tasks.dll",
+        "lib/tools/netstandard2.0/dotMemory.Unit.dll",
+        "lib/tools/x64/JetBrains.Common.NativeUtils.dll",
+        "lib/tools/x64/JetBrains.Profiler.Windows.Core.dll",
+        "lib/tools/x64/JetBrains.Profiler.Windows.CoreApi.dll",
+        "lib/tools/x64/symsrv.dll",
+        "lib/tools/x64/symsrv.yes",
+        "lib/tools/x86/JetBrains.Common.NativeUtils.dll",
+        "lib/tools/x86/JetBrains.Profiler.Windows.Core.dll",
+        "lib/tools/x86/JetBrains.Profiler.Windows.CoreApi.dll",
+        "lib/tools/x86/symsrv.dll",
+        "lib/tools/x86/symsrv.yes"
+      ]
+    },
+    "NUnit/3.12.0": {
+      "sha512": "3oJTrcUcT9wmweBUwgUf0f1XIYy6RZq2ziV+RM95HMKAJGsHPN2i3MKK1dAPvDPMRLz799Llj4eyu/STB9Q7OA==",
+      "type": "package",
+      "path": "nunit/3.12.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGES.md",
+        "LICENSE.txt",
+        "NOTICES.txt",
+        "build/NUnit.props",
+        "lib/net35/nunit.framework.dll",
+        "lib/net35/nunit.framework.pdb",
+        "lib/net35/nunit.framework.xml",
+        "lib/net40/nunit.framework.dll",
+        "lib/net40/nunit.framework.pdb",
+        "lib/net40/nunit.framework.xml",
+        "lib/net45/nunit.framework.dll",
+        "lib/net45/nunit.framework.pdb",
+        "lib/net45/nunit.framework.xml",
+        "lib/netstandard1.4/nunit.framework.dll",
+        "lib/netstandard1.4/nunit.framework.pdb",
+        "lib/netstandard1.4/nunit.framework.xml",
+        "lib/netstandard2.0/nunit.framework.dll",
+        "lib/netstandard2.0/nunit.framework.pdb",
+        "lib/netstandard2.0/nunit.framework.xml",
+        "nunit.3.12.0.nupkg.sha512",
+        "nunit.nuspec"
+      ]
+    },
     "System.ValueTuple/4.5.0": {
       "sha512": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
       "type": "package",
@@ -94,6 +311,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.6": [
+      "JetBrains.dotMemoryUnit >= 3.0.20171219.105559",
+      "NUnit >= 3.12.0",
       "System.ValueTuple >= 4.5.0"
     ]
   },
@@ -128,6 +347,14 @@
     "frameworks": {
       "net46": {
         "dependencies": {
+          "JetBrains.dotMemoryUnit": {
+            "target": "Package",
+            "version": "[3.0.20171219.105559, )"
+          },
+          "NUnit": {
+            "target": "Package",
+            "version": "[3.12.0, )"
+          },
           "System.ValueTuple": {
             "target": "Package",
             "version": "[4.5.0, )"
