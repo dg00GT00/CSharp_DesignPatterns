@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Console_BookExamples
 {
@@ -7,49 +8,83 @@ namespace Console_BookExamples
     // That resource may be remote, expensive to construct, or may require logging
     // or some other added functionality
 
-    public interface ICar
+    public class Property<T> : IEquatable<Property<T>> where T : new()
     {
-        void Drive();
-    }
+        private T _value;
 
-    public class Car : ICar
-    {
-        public void Drive()
+        public T Value
         {
-            Console.WriteLine("Car is being driven");
-        }
-    }
-
-    public class Driver
-    {
-        public Driver(int age)
-        {
-            Age = age;
-        }
-
-        public int Age { get; set; }
-    }
-
-    public class CarProxy : ICar
-    {
-        private Driver _driver;
-        private Car _car = new Car();
-
-        public CarProxy(Driver driver)
-        {
-            _driver = driver;
-        }
-
-        public void Drive()
-        {
-            if (_driver.Age >= 16)
+            get => _value;
+            set
             {
-                _car.Drive();
+                if (Equals(_value, value))
+                {
+                    return;
+                }
+
+                Console.WriteLine($"Assigning value to {value}");
+                _value = value;
             }
-            else
-            {
-                Console.WriteLine("You are too young to driver the car");
-            }
+        }
+
+        public static implicit operator T(Property<T> property)
+        {
+            return property._value; // int n = Property<int> variable;
+        }
+
+        public static implicit operator Property<T>(T value)
+        {
+            return new Property<T>(value); // Property<int> p = 123;
+        }
+
+        public Property() : this(Activator.CreateInstance<T>())
+        {
+        }
+
+        public Property(T value)
+        {
+            _value = value;
+        }
+
+        public bool Equals(Property<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return EqualityComparer<T>.Default.Equals(_value, other._value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Property<T>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return EqualityComparer<T>.Default.GetHashCode(_value);
+        }
+
+        public static bool operator ==(Property<T> left, Property<T> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Property<T> left, Property<T> right)
+        {
+            return !Equals(left, right);
+        }
+    }
+
+    public class Create
+    {
+        private Property<int> _agility = new Property<int>();
+
+        public Property<int> Agility
+        {
+            get => _agility.Value;
+            set => _agility.Value = value;
         }
     }
 
@@ -57,8 +92,9 @@ namespace Console_BookExamples
     {
         private static void Main(string[] args)
         {
-            ICar car = new CarProxy(new Driver(12));
-            car.Drive();
+            var c = new Create();
+            c.Agility = 10;
+            c.Agility = 10;
         }
     }
 }
