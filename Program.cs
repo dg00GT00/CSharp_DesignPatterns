@@ -7,84 +7,66 @@ namespace Console_BookExamples
     // A class that function as an interface to a particular resource.
     // That resource may be remote, expensive to construct, or may require logging
     // or some other added functionality
-
-    public class Property<T> : IEquatable<Property<T>> where T : new()
+    public struct Percentage : IEquatable<Percentage>
     {
-        private T _value;
+        private readonly float _value;
 
-        public T Value
-        {
-            get => _value;
-            set
-            {
-                if (Equals(_value, value))
-                {
-                    return;
-                }
-
-                Console.WriteLine($"Assigning value to {value}");
-                _value = value;
-            }
-        }
-
-        public static implicit operator T(Property<T> property)
-        {
-            return property._value; // int n = Property<int> variable;
-        }
-
-        public static implicit operator Property<T>(T value)
-        {
-            return new Property<T>(value); // Property<int> p = 123;
-        }
-
-        public Property() : this(Activator.CreateInstance<T>())
-        {
-        }
-
-        public Property(T value)
+        internal Percentage(float value)
         {
             _value = value;
         }
 
-        public bool Equals(Property<T> other)
+        public static float operator *(float f, Percentage p)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return EqualityComparer<T>.Default.Equals(_value, other._value);
+            return f * p._value;
+        }
+
+        public static Percentage operator +(Percentage a, Percentage b)
+        {
+            return new Percentage(a._value + b._value);
+        }
+
+        public override string ToString()
+        {
+            return $"{_value * 100}%";
+        }
+
+        public bool Equals(Percentage other)
+        {
+            return _value.Equals(other._value);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Property<T>) obj);
+            return obj is Percentage other && Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return EqualityComparer<T>.Default.GetHashCode(_value);
+            return _value.GetHashCode();
         }
 
-        public static bool operator ==(Property<T> left, Property<T> right)
+        public static bool operator ==(Percentage left, Percentage right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
-        public static bool operator !=(Property<T> left, Property<T> right)
+        public static bool operator !=(Percentage left, Percentage right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
     }
 
-    public class Create
+    public static class PercentageExtensions
     {
-        private Property<int> _agility = new Property<int>();
-
-        public Property<int> Agility
+        public static Percentage Percent(this int value)
         {
-            get => _agility.Value;
-            set => _agility.Value = value;
+            return new Percentage(value / 100.00f);
+        }
+
+        public static Percentage Percent(this float value)
+        {
+            return new Percentage(value / 100.00f);
         }
     }
 
@@ -92,9 +74,8 @@ namespace Console_BookExamples
     {
         private static void Main(string[] args)
         {
-            var c = new Create();
-            c.Agility = 10;
-            c.Agility = 10;
+            Console.WriteLine(10f * 5.Percent());
+            Console.WriteLine(2.Percent() + 3.Percent());
         }
     }
 }
