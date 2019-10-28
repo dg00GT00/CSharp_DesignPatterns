@@ -7,6 +7,11 @@ namespace Console_BookExamples
     // A class that function as an interface to a particular resource.
     // That resource may be remote, expensive to construct, or may require logging
     // or some other added functionality
+    
+    // A proxy has the same interface as the underlying object
+    // To create a proxy, simply replicate the existing interface of an object
+    // Add relevant functionality to the redefined member functions
+    // Different proxies (communication, logging, caching, etc) have completely different behaviours
 
     public class Creature
     {
