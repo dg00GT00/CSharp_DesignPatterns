@@ -6,16 +6,71 @@ namespace Console_BookExamples
     // A chain of components who all get a chance to process a command or a query,
     // optionally having default processing implementation and an ability to terminate
     // the processing chain
+    // Enlist objects in the chain, possibly controlling their order
+    // Object removal from chain (e.g. in Dispose())
+    public class Game
+    {
+        public event EventHandler<Query> Queries;
+
+        public void PerformQuery(object sender, Query q)
+        {
+            Queries?.Invoke(sender, q);
+        }
+    }
+
+    public class Query
+    {
+        public string CreateName;
+
+        public enum Argument
+        {
+            Attack,
+            Defense
+        }
+
+        public Argument WhatToQuery;
+        public int Value;
+
+        public Query(string name, Argument whatToQuery, int value)
+        {
+            CreateName = name;
+            WhatToQuery = whatToQuery;
+            Value = value;
+        }
+    }
+
     public class Creature
     {
+        private Game _game;
         public string Name;
-        public int Attack, Defense;
+        private int _attack, _defense;
 
-        public Creature(string name, int attack, int defense)
+        public Creature(Game game, string name, int attack, int defense)
         {
+            _game = game;
             Name = name;
-            Attack = attack;
-            Defense = defense;
+            _attack = attack;
+            _defense = defense;
+        }
+
+        public int Attack
+        {
+            get
+            {
+                var q = new Query(Name, Query.Argument.Attack, _attack);
+                _game.PerformQuery(this, q);
+                return q.Value;
+            }
+        }
+
+        public int Defense
+        {
+            get
+            {
+                var q = new Query(Name, Query.Argument.Attack, _defense);
+                _game.PerformQuery(this, q);
+                return q.Value;
+            }
         }
 
         public override string ToString()
@@ -24,85 +79,56 @@ namespace Console_BookExamples
         }
     }
 
-    public class CreatureModifier
+    public abstract class CreatureModifier : IDisposable
     {
+        protected Game _game;
         protected Creature _creature;
-        protected CreatureModifier _next; // linked list
 
-        public CreatureModifier(Creature creature)
+        protected CreatureModifier(Game game, Creature creature)
         {
+            _game = game;
             _creature = creature;
+            _game.Queries += Handle;
         }
 
-        public void Add(CreatureModifier cm)
+        protected abstract void Handle(object sender, Query q);
+
+
+        public void Dispose()
         {
-            if (_next != null)
-            {
-                _next.Add(cm);
-            }
-            else
-            {
-                _next = cm;
-            }
+            _game.Queries -= Handle;
         }
-
-        public virtual void Handle() => _next?.Handle();
     }
 
     public class DoubleAttackModifier : CreatureModifier
     {
-        public DoubleAttackModifier(Creature creature) : base(creature)
+        public DoubleAttackModifier(Game game, Creature creature) : base(game, creature)
         {
         }
 
-        public override void Handle()
+        protected override void Handle(object sender, Query q)
         {
-            Console.WriteLine($"Doubling {_creature.Name}'s attack");
-            _creature.Attack *= 2;
-            base.Handle();
+            if (q.CreateName == _creature.Name && q.WhatToQuery == Query.Argument.Attack)
+            {
+                q.Value *= 2;
+            }
         }
     }
 
-    public class IncreasedDefenseModifier : CreatureModifier
-    {
-        public IncreasedDefenseModifier(Creature creature) : base(creature)
-        {
-        }
-
-        public override void Handle()
-        {
-            Console.WriteLine($"Increasing {_creature.Defense}'s defense");
-            _creature.Defense += 3;
-            base.Handle();
-        }
-    }
-
-    public class NoBonusesModifier : CreatureModifier
-    {
-        public NoBonusesModifier(Creature creature) : base(creature)
-        {
-        }
-
-        public override void Handle()
-        {
-            // Not implementing this method breaks the chain
-        }
-    }
 
     internal static class Demo
     {
         private static void Main(string[] args)
         {
-            var goblin = new Creature("Goblin", 2, 2);
+            var game = new Game();
+            var goblin = new Creature(game, "Strong Goblin", 3, 3);
             Console.WriteLine(goblin);
 
-            var root = new CreatureModifier(goblin);
-            root.Add(new DoubleAttackModifier(goblin));
+            using (new DoubleAttackModifier(game, goblin))
+            {
+                Console.WriteLine(goblin);
+            }
 
-            Console.WriteLine("Let's increase goblin's defense");
-            root.Add(new IncreasedDefenseModifier(goblin));
-
-            root.Handle();
             Console.WriteLine(goblin);
         }
     }
