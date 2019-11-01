@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Console_BookExamples
 {
@@ -81,6 +83,48 @@ namespace Console_BookExamples
         }
     }
 
+    public class BinaryTree<T>
+    {
+        private Node<T> _root;
+
+        public BinaryTree(Node<T> root)
+        {
+            _root = root;
+        }
+
+        public IEnumerable<Node<T>> InOrder
+        {
+            get
+            {
+                IEnumerable<Node<T>> Traverse(Node<T> current)
+                {
+                    if (current.Left != null)
+                    {
+                        foreach (var left in Traverse(current.Left))
+                        {
+                            yield return left;
+                        }
+                    }
+
+                    if (current.Right != null)
+                    {
+                        foreach (var right in Traverse(current.Right))
+                        {
+                            yield return right;
+                        }
+                    }
+
+                    yield return current;
+                }
+
+                foreach (var node in Traverse(_root))
+                {
+                    yield return node;
+                }
+            }
+        }
+    }
+
     internal static class Demo
     {
         private static void Main(string[] args)
@@ -98,6 +142,9 @@ namespace Console_BookExamples
             }
 
             Console.WriteLine();
+
+            var tree = new BinaryTree<int>(root);
+            Console.WriteLine(string.Join(", ", tree.InOrder.Select(x => x.Value)));
         }
     }
 }
