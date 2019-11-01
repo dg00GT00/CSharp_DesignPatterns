@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,122 +7,37 @@ namespace Console_BookExamples
 {
     //********************** Iterator principle **********************//
     // An object (or, in .NET, a method) that facilitates the traversal
-    // of a data structure
+    // of a data structure.
+    // An iterator specified how you can traverse an object
+    // An iterator object, unlike a method cannot be recursive
+    // Generally, an IEnumerable<T>  returning method is enough
+    // Iteration works through duck typing - you need a GetEnumerator() that yields
+    // a type that has Current and MoveNext()
 
-    public class Node<T>
+    public class Creature: IEnumerable<int>
     {
-        public T Value;
-        public Node<T> Left, Right;
-        public Node<T> Parent;
+        private int[] _stats = new int[3];
 
-        public Node(T value)
+        private const int Strengh = 0;
+
+        public int Strength
         {
-            Value = value;
+            get => _stats[Strengh];
+            set => _stats[Strengh] = value;
         }
 
-        public Node(T value, Node<T> left, Node<T> right)
-        {
-            Value = value;
-            Left = left;
-            Right = right;
-            left.Parent = right.Parent = this;
-        }
-    }
+        public int Agility { get; set; }
+        public int Intelligence { get; set; }
 
-    public class InOrderIterator<T>
-    {
-        private readonly Node<T> _root;
-        public Node<T> Current;
-        private bool yieldedStart;
-
-        public InOrderIterator(Node<T> root)
+        public double AverageStat => _stats.Average();
+        public IEnumerator<int> GetEnumerator()
         {
-            _root = root;
-            Current = root;
-            while (Current.Left != null)
-            {
-                Current = Current.Left;
-            }
+            return _stats.AsEnumerable().GetEnumerator();
         }
 
-        public bool MoveNext()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            if (!yieldedStart)
-            {
-                yieldedStart = true;
-                return true;
-            }
-
-            if (Current.Right != null)
-            {
-                Current = Current.Right;
-                while (Current.Left != null)
-                {
-                    Current = Current.Left;
-                }
-
-                return true;
-            }
-            else
-            {
-                var p = Current.Parent;
-                while (p != null && Current == p.Right)
-                {
-                    Current = p;
-                    p = p.Parent;
-                }
-
-                Current = p;
-                return Current != null;
-            }
-        }
-
-        public void Reset()
-        {
-            Current = _root;
-            yieldedStart = false;
-        }
-    }
-
-    public class BinaryTree<T>
-    {
-        private Node<T> _root;
-
-        public BinaryTree(Node<T> root)
-        {
-            _root = root;
-        }
-
-        public IEnumerable<Node<T>> InOrder
-        {
-            get
-            {
-                IEnumerable<Node<T>> Traverse(Node<T> current)
-                {
-                    if (current.Left != null)
-                    {
-                        foreach (var left in Traverse(current.Left))
-                        {
-                            yield return left;
-                        }
-                    }
-
-                    if (current.Right != null)
-                    {
-                        foreach (var right in Traverse(current.Right))
-                        {
-                            yield return right;
-                        }
-                    }
-
-                    yield return current;
-                }
-
-                foreach (var node in Traverse(_root))
-                {
-                    yield return node;
-                }
-            }
+            return GetEnumerator();
         }
     }
 
@@ -129,22 +45,6 @@ namespace Console_BookExamples
     {
         private static void Main(string[] args)
         {
-            //    1
-            //   / \
-            //  2   3
-            // in-order: 213
-            var root = new Node<int>(1, new Node<int>(2), new Node<int>(3));
-            var it = new InOrderIterator<int>(root);
-            while (it.MoveNext())
-            {
-                Console.Write(it.Current.Value);
-                Console.Write(", ");
-            }
-
-            Console.WriteLine();
-
-            var tree = new BinaryTree<int>(root);
-            Console.WriteLine(string.Join(", ", tree.InOrder.Select(x => x.Value)));
         }
     }
 }
