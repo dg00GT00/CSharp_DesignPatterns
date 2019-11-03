@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace Console_BookExamples
 {
@@ -19,21 +19,46 @@ namespace Console_BookExamples
     public class BankAccount
     {
         private int _balance;
+        private List<Memento> _changes = new List<Memento>();
+        private int _current;
 
         public BankAccount(int balance)
         {
             _balance = balance;
+            _changes.Add(new Memento(_balance));
         }
 
         public Memento Deposit(int amount)
         {
             _balance += amount;
-            return new Memento(_balance);
+            var m = new Memento(_balance);
+            _changes.Add(m);
+            ++_current;
+            return m;
         }
 
-        public void Restore(Memento m)
+        public Memento Restore(Memento m)
         {
+            if (m == null) return null;
             _balance = m.Balance;
+            _changes.Add(m);
+            return m;
+        }
+
+        public Memento Undo()
+        {
+            if (_current <= 0) return null;
+            var m = _changes[--_current];
+            _balance = m.Balance;
+            return m;
+        }
+
+        public Memento Redo()
+        {
+            if (_current + 1 >= _changes.Count) return null;
+            var m = _changes[++_current];
+            _balance = m.Balance;
+            return m;
         }
 
         public override string ToString()
@@ -47,15 +72,17 @@ namespace Console_BookExamples
         private static void Main(string[] args)
         {
             var ba = new BankAccount(100);
-            var m1 = ba.Deposit(50);
-            var m2 = ba.Deposit(25);
+            ba.Deposit(50);
+            ba.Deposit(25);
             Console.WriteLine(ba);
-            
-            ba.Restore(m1);
-            Console.WriteLine(ba);
-            
-            ba.Restore(m2);
-            Console.WriteLine(ba);
+
+            ba.Undo();
+            Console.WriteLine($"Undo 1: {ba}");
+            ba.Undo();
+            Console.WriteLine($"Undo 2: {ba}");
+            ba.Redo();
+            Console.WriteLine($"Redo 1: {ba}");
+
         }
     }
 }
