@@ -5,6 +5,12 @@ namespace Console_BookExamples
     //************* Null Object responsibility principle *************//
     // A no-op object that conforms to the required interface, satisfying a 
     // dependency requirement of some other object
+    // Implement the required interface
+    // Rewrite the methods with empty bodies
+    //    If method is non-void, return default(T)
+    //    If these values are ever used, you are in trouble
+    // Supply an instance of Null Object in place of actual object
+    // Dynamic construction possible
     public interface ILog
     {
         void Info(string msg);
