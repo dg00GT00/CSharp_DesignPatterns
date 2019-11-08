@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Console_BookExamples
 {
@@ -8,68 +7,55 @@ namespace Console_BookExamples
     // A pattern in which the object's behaviour is determined by its state
     // An object transitions from one state to another (something needs to trigger a transition
     // A formalized construct which manages state and transitions is called a state machine
+    // Given sufficient complexity, it pays to formally define possible states and events/triggers
+    // Can define:
+     //    State entry/exit behaviors
+     //    Action when a particular event causes a transition
+     //    Guard conditions enabling/disabling a transition
+     //    Default action when no transitions are found for an event
     public enum State
     {
-        OffHook,
-        Connecting,
-        Connected,
-        OnHold
+        Locked,
+        Failed,
+        Unlocked
     }
-
-    public enum Trigger
-    {
-        CallDialed,
-        HungUp,
-        CallConnected,
-        PlaceOnHold,
-        TakeOffHold,
-        LeftMessage
-    }
-
     internal static class Demo
     {
-        private static readonly Dictionary<State, List<(Trigger, State)>> Rules =
-            new Dictionary<State, List<(Trigger, State)>>
-            {
-                [State.OffHook] = new List<(Trigger, State)>
-                {
-                    (Trigger.CallDialed, State.Connecting)
-                },
-                [State.Connecting] = new List<(Trigger, State)>
-                {
-                    (Trigger.HungUp, State.OffHook),
-                    (Trigger.CallConnected, State.Connected)
-                },
-                [State.Connected] = new List<(Trigger, State)>
-                {
-                    (Trigger.LeftMessage, State.OffHook),
-                    (Trigger.HungUp, State.OffHook),
-                    (Trigger.PlaceOnHold, State.OnHold)
-                },
-                [State.OnHold] = new List<(Trigger, State)>
-                {
-                    (Trigger.TakeOffHold, State.Connected),
-                    (Trigger.HungUp, State.OffHook)
-                }
-            };
-
         private static void Main(string[] args)
         {
-            var state = State.OffHook;
+            var code = "1234";
+            var state = State.Locked;
+            var entry = new StringBuilder();
+
             while (true)
             {
-                Console.WriteLine($"The phone is currently {state}");
-                Console.WriteLine("Select a trigger:");
-
-                for (var index = 0; index < Rules[state].Count; index++)
+                switch (state)
                 {
-                    var (t, _) = Rules[state][index];
-                    Console.WriteLine($"{index}. {t}");
-                }
+                    case State.Locked:
+                        entry.Append(Console.ReadKey().KeyChar);
+                        if (entry.ToString() == code)
+                        {
+                            state = State.Unlocked;
+                        }
 
-                int input = int.Parse(Console.ReadLine());
-                var (_, s) = Rules[state][input];
-                state = s;
+                        if (!code.StartsWith(entry.ToString()))
+                        {
+//                            state = State.Failed;
+                            goto case State.Failed;
+                        }
+
+                        break;
+                    case State.Failed:
+                        Console.CursorLeft = 0;
+                        Console.WriteLine("FAILED");
+                        entry.Clear();
+                        state = State.Locked;
+                        break;
+                    case State.Unlocked:
+                        Console.CursorLeft = 0;
+                        Console.WriteLine("UNLOCKED");
+                        return;
+                }
             }
         }
     }
