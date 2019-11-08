@@ -38,8 +38,8 @@ namespace Console_BookExamples
             sb.AppendLine($"    <li>{item}</li>");
         }
     }
-    
-    public class MarkdownListStrategy: IListStrategy
+
+    public class MarkdownListStrategy : IListStrategy
     {
         public void Start(StringBuilder sb)
         {
@@ -55,25 +55,11 @@ namespace Console_BookExamples
         }
     }
 
-    public class TextProcessor
+    public class TextProcessor<TLs> where TLs : IListStrategy, new()
     {
         private StringBuilder _sb = new StringBuilder();
-        private IListStrategy _listStrategy;
+        private TLs _listStrategy = new TLs();
 
-        public void SetOutputFormat(OutputFormat format)
-        {
-            switch (format)
-            {
-                case OutputFormat.MarkDown:
-                    _listStrategy = new MarkdownListStrategy();
-                    break;
-                case OutputFormat.Html:
-                    _listStrategy = new HtmlListStrategy();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(format), format, null);
-            }
-        }
 
         public void AppendList(IEnumerable<string> items)
         {
@@ -82,6 +68,7 @@ namespace Console_BookExamples
             {
                 _listStrategy.AddListItem(_sb, item);
             }
+
             _listStrategy.End(_sb);
         }
 
@@ -93,7 +80,6 @@ namespace Console_BookExamples
         public override string ToString()
         {
             return _sb.ToString();
-            
         }
     }
 
@@ -101,15 +87,13 @@ namespace Console_BookExamples
     {
         private static void Main(string[] args)
         {
-            var tp = new TextProcessor();
-            tp.SetOutputFormat(OutputFormat.MarkDown);
-            tp.AppendList(new[] {"foo", "bar", "baz"});
+            var tp = new TextProcessor<MarkdownListStrategy>();
+            tp.AppendList(new []{"foo", "bar", "baz"});
             Console.WriteLine(tp);
-
-            tp.Clear();
-            tp.SetOutputFormat(OutputFormat.Html);
-            tp.AppendList(new[] {"foo", "bar", "baz"});
-            Console.WriteLine(tp);
+            
+            var tp2 = new TextProcessor<HtmlListStrategy>();
+            tp2.AppendList(new []{"foo", "bar", "baz"});
+            Console.WriteLine(tp2);
         }
-}
     }
+}
