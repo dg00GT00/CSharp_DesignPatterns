@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Console_BookExamples
 {
@@ -8,92 +7,80 @@ namespace Console_BookExamples
     // Enables the exact behaviour of a system to be selected either at run-time
     // (dynamic) or compile-time (static)
     // Also known as 'policy' (esp. in the C++ world)
-    public enum OutputFormat
+    // Define an algorithm at high-level
+    // Define the interface you expect each strategy to follow
+    // Provide for either dynamic or static composition of strategy in the overall algorithm
+
+    public class Person : IComparable<Person>, IComparable
     {
-        MarkDown,
-        Html
-    }
+        public int Id;
+        public string Name;
+        public int Age;
 
-    public interface IListStrategy
-    {
-        void Start(StringBuilder sb);
-        void End(StringBuilder sb);
-        void AddListItem(StringBuilder sb, string item);
-    }
-
-    public class HtmlListStrategy : IListStrategy
-    {
-        public void Start(StringBuilder sb)
+        public Person(int id, string name, int age)
         {
-            sb.AppendLine("<ul>");
+            Id = id;
+            Name = name;
+            Age = age;
         }
 
-        public void End(StringBuilder sb)
+        public int CompareTo(Person other)
         {
-            sb.AppendLine("</ul>");
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            return Id.CompareTo(other.Id);
         }
 
-        public void AddListItem(StringBuilder sb, string item)
+        public int CompareTo(object obj)
         {
-            sb.AppendLine($"    <li>{item}</li>");
-        }
-    }
-
-    public class MarkdownListStrategy : IListStrategy
-    {
-        public void Start(StringBuilder sb)
-        {
+            if (ReferenceEquals(null, obj)) return 1;
+            if (ReferenceEquals(this, obj)) return 0;
+            return obj is Person other
+                ? CompareTo(other)
+                : throw new ArgumentException($"Object must be of type {nameof(Person)}");
         }
 
-        public void End(StringBuilder sb)
+        public static bool operator <(Person left, Person right)
         {
+            return Comparer<Person>.Default.Compare(left, right) < 0;
         }
 
-        public void AddListItem(StringBuilder sb, string item)
+        public static bool operator >(Person left, Person right)
         {
-            sb.AppendLine($" * {item}");
+            return Comparer<Person>.Default.Compare(left, right) > 0;
         }
-    }
 
-    public class TextProcessor<TLs> where TLs : IListStrategy, new()
-    {
-        private StringBuilder _sb = new StringBuilder();
-        private TLs _listStrategy = new TLs();
-
-
-        public void AppendList(IEnumerable<string> items)
+        public static bool operator <=(Person left, Person right)
         {
-            _listStrategy.Start(_sb);
-            foreach (var item in items)
+            return Comparer<Person>.Default.Compare(left, right) <= 0;
+        }
+
+        public static bool operator >=(Person left, Person right)
+        {
+            return Comparer<Person>.Default.Compare(left, right) >= 0;
+        }
+
+        private sealed class NameRelationalComparer : IComparer<Person>
+        {
+            public int Compare(Person x, Person y)
             {
-                _listStrategy.AddListItem(_sb, item);
+                if (ReferenceEquals(x, y)) return 0;
+                if (ReferenceEquals(null, y)) return 1;
+                if (ReferenceEquals(null, x)) return -1;
+                return string.Compare(x.Name, y.Name, StringComparison.Ordinal);
             }
-
-            _listStrategy.End(_sb);
         }
 
-        public StringBuilder Clear()
-        {
-            return _sb.Clear();
-        }
-
-        public override string ToString()
-        {
-            return _sb.ToString();
-        }
+        public static IComparer<Person> NameComparer { get; } = new NameRelationalComparer();
     }
 
     internal static class Demo
     {
         private static void Main(string[] args)
         {
-            var tp = new TextProcessor<MarkdownListStrategy>();
-            tp.AppendList(new []{"foo", "bar", "baz"});
-            Console.WriteLine(tp);
-            
-            var tp2 = new TextProcessor<HtmlListStrategy>();
-            tp2.AppendList(new []{"foo", "bar", "baz"});
-            Console.WriteLine(tp2);
+            var people = new List<Person>();
+            people.Sort();
+            people.Sort(Person.NameComparer);
         }
     }
 }
